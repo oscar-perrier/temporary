@@ -1,27 +1,31 @@
 #pragma once
 #include "Entity.h"
-#include "Image.h"
-#include <SDL.h>
 
 #define SPRITE_PATH "../../assets/sprites/spaceship_enemy.png"
 
-#define PLAYER_SPEED 300.0f
-
-const float ENEMY_FIRE_RATE = 1.0f;
+enum EnemyType {
+    ENEMY_NORMAL,      // Ennemi normal qui tire
+    ENEMY_OBSTACLE,    // Obstacle qui ne tire pas
+    ENEMY_TANK,         // Ennemi lent mais qui tire vite
+    ENEMY_BOSS
+};
 
 class Enemy : public Entity
 {
 public:
+    EnemyType enemy_type;
+    bool can_shoot;
 
-    float fire_cooldown = ENEMY_FIRE_RATE;
-    float move_speed = 100.0f;
-    Enemy(SDL_Renderer* renderer);
-    ~Enemy() override;
+    Enemy(SDL_Renderer* renderer, EnemyType type = ENEMY_NORMAL);
+    ~Enemy();
 
-    void SetSprite(SDL_Renderer* renderer, const char* path);
-    void Move(float x, float y);
-    void SetPosition(float x, float y, float anchorX = 0.5f, float anchorY = 0.5f);
-    Vector2 GetPosition(float anchorX, float anchorY);
+    void Move(float x, float y) override;
+    void SetPosition(float x, float y, float anchorX = 0.5f, float anchorY = 0.5f) override;
+    Vector2 GetPosition(float anchorX = 0.5f, float anchorY = 0.5f) override;
     Vector2 GetSize();
-    void Draw(SDL_Renderer* renderer);
+    void Draw(SDL_Renderer* renderer) override;
+
+private:
+    void SetSprite(SDL_Renderer* renderer, const char* path);
+    void SetupByType(SDL_Renderer* renderer, EnemyType type);
 };

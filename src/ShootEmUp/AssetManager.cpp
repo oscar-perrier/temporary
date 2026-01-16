@@ -37,8 +37,10 @@ void AssetManager::LoadAssets(SDL_Renderer* renderer)
 		LoadTexture(renderer, entry.path().string().c_str());
 
 	const char* path2 = "../../assets/background/gif/";
-	for (const auto& entry : fs::directory_iterator(path2))
+	for (const auto& entry : fs::directory_iterator(path2)) {
+		//std::cout << entry.path() << std::endl;
 		LoadAnimatedTexture(renderer, entry.path().string().c_str());
+	}
 }
 
 SDL_Texture* AssetManager::LoadTexture(SDL_Renderer* renderer, const char* path)
@@ -72,28 +74,31 @@ SDL_Texture* AssetManager::LoadTexture(SDL_Renderer* renderer, const char* path)
 
 std::vector<SDL_Texture*> AssetManager::LoadAnimatedTexture(SDL_Renderer* renderer, const char* path)
 {
-	auto it = animatedTextures.find(path);
+	//auto it = animatedTextures.find(path);
 
-	if (it != animatedTextures.end()) {
-		return it->second;
-	}
+	//if (it != animatedTextures.end()) {
+	//	return it->second;
+	//}
 
 	IMG_Animation* animation = IMG_LoadAnimation(path);
 
 	if (!animation) {
-		std::cerr << "Failed to load animation: " << path << std::endl;
+		std::cout << "Failed to load animation: " << path << std::endl;
 		return {};
 	}
 
 	std::vector<SDL_Texture*> frames;
 	for (int i = 0; i < animation->count; i++) {
 		SDL_Texture* frame = SDL_CreateTextureFromSurface(renderer, animation->frames[i]);
+		if (!frame) {
+			std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+		}
 		frames.push_back(frame);
 	}
 
 	//delete animation;
 
-	animatedTextures[path] = frames;
+	animatedTextures.push_back(frames);
 
 	return frames;
 }

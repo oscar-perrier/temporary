@@ -36,7 +36,7 @@ void Background::UpdateBackground(SDL_Renderer* renderer, float deltaTime)
     CloneMove(-2.0f * ANIMATION_SPEED * deltaTime, 0);
 
     randTimer += deltaTime * 1000;
-    if (randTimer >= 1000) {
+    if (randTimer >= 1500) {
         randTimer = 0;
 		GenerateRandomPlanets(renderer);
     }
@@ -90,9 +90,7 @@ void Background::GenerateRandomPlanets(SDL_Renderer* renderer)
     // generate a random number between 0 and the length of AssetManager's animatedTextures
     AssetManager* assetManager = AssetManager::GetInstance();
     int randIndex = rand() % assetManager->animatedTextures.size();
-    auto it = assetManager->animatedTextures.begin();
-    std::advance(it, randIndex);
-	std::vector<SDL_Texture*> planetTextures = it->second;
+	std::vector<SDL_Texture*> planetTextures = assetManager->animatedTextures[randIndex];
 	Star* newPlanet = new Star(planetTextures, rand() % HEIGHT);
     randPlanets.push_back(newPlanet);
 }

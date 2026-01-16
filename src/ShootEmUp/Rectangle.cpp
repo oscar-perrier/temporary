@@ -16,7 +16,7 @@ void Rectangle::Draw(SDL_Renderer* renderer)
 }
 bool Rectangle::Intersects(const Geometry* other) const
 {
-    // Cast en Rectangle pour accéder aux coordonnées
+    // Cast en Rectangle pour accï¿½der aux coordonnï¿½es
     const Rectangle* otherRect = dynamic_cast<const Rectangle*>(other);
     if (!otherRect) return false;
 

@@ -1,32 +1,34 @@
 #pragma once
-#include "Geometry.h"
+#include "Image.h"
 #include "Rectangle.h"
-#include <SDL.h>
-#include <Image.h>
 
 class Entity
 {
 public:
-    Geometry* hitbox;
+    Rectangle* hitbox;
     Image* sprite;
     int pv;
-    float move_speed;
-    float fire_rate;
-    int weapon_type;
-    Vector2 spawn_point;
     int max_pv;
     bool is_alive;
+    float move_speed;
+    float fire_rate;
+    float fire_cooldown;
+    int weapon_type;
+    Vector2 spawn_point;
+
+    // Nouveaux attributs pour les frames d'invuln�rabilit�
+    bool is_invulnerable;
+    float invulnerability_timer;
 
     Entity();
     virtual ~Entity();
 
-    void SetSprite(SDL_Renderer* renderer, const char* path, int rot, Vector2 spritePos = { 0 }, Vector2 spriteSize = { 0 });
+    void SetSprite(SDL_Renderer* renderer, const char* path, int rot = 0, Vector2 spritePos = { 0, 0 }, Vector2 spriteSize = { 0, 0 });
     void SetHitbox();
-    void TakeDamage(int damage);
-    void SetPosition(float x, float y, float anchorX, float anchorY);
-    void SetPosition(const Vector2& position, float anchorX, float anchorY);
+    virtual void TakeDamage(int damage);
 
-
-    virtual void Update(float deltaTime) {}
-    virtual void Draw(SDL_Renderer* renderer) {}
+    virtual void Move(float x, float y) = 0;
+    virtual void SetPosition(float x, float y, float anchorX = 0.5f, float anchorY = 0.5f) = 0;
+    virtual Vector2 GetPosition(float anchorX = 0.5f, float anchorY = 0.5f) = 0;
+    virtual void Draw(SDL_Renderer* renderer) = 0;
 };

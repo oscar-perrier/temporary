@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDL.h"
+#include <SDL.h>
 #include <iostream>
 #include <map>
 
@@ -10,6 +10,14 @@ class InputManager
 		bool isDown;
 		bool isHeld;
 		bool isUp;
+	};
+
+	struct MouseState {
+		bool leftClick;
+		bool rightClick;
+		bool middleClick;
+		int posX;
+		int posY;
 	};
 
 	KeyState keyStates[SDL_NUM_SCANCODES];
@@ -50,7 +58,6 @@ public:
 			}
 			}
 		}
-
 	}
 
 	bool IsDown(SDL_KeyCode key) {

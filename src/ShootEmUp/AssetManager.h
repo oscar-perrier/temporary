@@ -10,7 +10,7 @@ class AssetManager
 
 public:
 	std::map<const char*, SDL_Texture*> textures;
-	std::map<const char*, std::vector<SDL_Texture*>> animatedTextures;
+	std::vector<std::vector<SDL_Texture*>> animatedTextures;
 
 
 

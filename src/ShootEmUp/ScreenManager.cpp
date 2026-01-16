@@ -1,12 +1,13 @@
 #include "ScreenManager.h"
-
+#include "GameManager.h"
 
 ScreenManager::ScreenManager()
     : renderer(nullptr), window(nullptr)
 {
 }
 
-bool ScreenManager::Init() {
+bool ScreenManager::Init()
+{
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0)
     {
         std::cout << "Error SDL2 Initialization : " << SDL_GetError();
@@ -15,7 +16,7 @@ bool ScreenManager::Init() {
 
     IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
-    window = SDL_CreateWindow("SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("SPACE MESS", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
     if (!window)
     {
         std::cout << "Error window creation";
@@ -28,8 +29,6 @@ bool ScreenManager::Init() {
         std::cout << "Error renderer creation";
         return 1;
     }
-
-
 }
 
 void ScreenManager::Update(EntityManager& entities)
@@ -44,25 +43,25 @@ void ScreenManager::Update(EntityManager& entities)
     // parallax elements
     entities.GetBackground()->PlanetsDraw(renderer);
 
+    // upgrades
+    for (auto& u : entities.GetUpgrades()) u->Draw(renderer);
 
-    //bullets
+    // bullets
     for (auto& b : entities.GetBullets()) b->Draw(renderer);
 
-    //enemies
+    // enemies
     for (auto& e : entities.GetEnemies()) e->Draw(renderer);
+
+    if (entities.CheckState() == MainMenu) entities.GetStartButton()->Draw(renderer);
+    if (entities.CheckState() == MainMenu) entities.GetQuitButton()->Draw(renderer);
+    if (entities.CheckState() == Defeat) entities.GetRetryButton()->Draw(renderer);
+    if (entities.CheckState() == Defeat) entities.GetMenuButton()->Draw(renderer);
 
     //player
     entities.GetPlayer()->Draw(renderer);
 
     // Affiche les PV
     DrawHealthBar(entities.GetPlayer());
-
-
-
-    //for (auto& e : entities->GetEnemies()) e->Draw(renderer);
-
-
-
 
     SDL_RenderPresent(renderer);
 }
@@ -76,9 +75,10 @@ SDL_Window* ScreenManager::GetWindow()
 {
     return window;
 }
+
 void ScreenManager::DrawHealthBar(Player* player)
 {
-    // Dessine les coeurs/PV en haut � gauche
+    // Dessine les coeurs/PV en haut à gauche
     int heartSize = 30;
     int spacing = 10;
     int startX = 20;
@@ -105,4 +105,39 @@ void ScreenManager::DrawHealthBar(Player* player)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderDrawRect(renderer, &heartRect);
     }
+
+    // Affiche les upgrades actifs
+    int iconSize = 25;
+    int iconStartX = 20;
+    int iconStartY = startY + heartSize + 15;
+
+    if (player->has_homing_missiles)
+    {
+        SDL_Rect iconRect = { iconStartX, iconStartY, iconSize, iconSize };
+        SDL_SetRenderDrawColor(renderer, 255, 165, 0, 255); // Orange
+        SDL_RenderFillRect(renderer, &iconRect);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderDrawRect(renderer, &iconRect);
+        iconStartX += iconSize + 5;
+    }
+
+    if (player->has_shield && player->shield_timer > 0)
+    {
+        SDL_Rect iconRect = { iconStartX, iconStartY, iconSize, iconSize };
+        SDL_SetRenderDrawColor(renderer, 0, 150, 255, 255); // Bleu
+        SDL_RenderFillRect(renderer, &iconRect);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderDrawRect(renderer, &iconRect);
+        iconStartX += iconSize + 5;
+    }
+
+    if (player->fire_rate > player->original_fire_rate * 1.5f)
+    {
+        SDL_Rect iconRect = { iconStartX, iconStartY, iconSize, iconSize };
+        SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255); // Jaune
+        SDL_RenderFillRect(renderer, &iconRect);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderDrawRect(renderer, &iconRect);
+    }
+
 }

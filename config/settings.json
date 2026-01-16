@@ -1,7 +1,7 @@
 {
     "projects": {
         "ShootEmUp": {
-          "additionalDependencies": [ "SDL2.lib","SDL2main.lib","SDL2_image.lib" ],
+          "additionalDependencies": [ "SDL2.lib","SDL2main.lib","SDL2_image.lib","SDL2_ttf.lib" ],
           "additionalIncludeDirectories": [ "..\\..\\SDL2\\include" ],
           "additionalLibraryDirectories": [ "..\\..\\SDL2\\lib\\x64" ],
             "dependencies": [],

@@ -10,8 +10,11 @@ Entity::Entity()
     is_alive = true;
     move_speed = 0;
     fire_rate = 0;
+    fire_cooldown = 0;
     weapon_type = 0;
     spawn_point = { 0 };
+    is_invulnerable = false;
+    invulnerability_timer = 0.0f;
 }
 
 Entity::~Entity()
@@ -32,7 +35,7 @@ void Entity::SetSprite(SDL_Renderer* renderer, const char* path, int rot, Vector
 void Entity::SetHitbox()
 {
     hitbox = new Rectangle(
-        sprite->GetSize().x, 
+        sprite->GetSize().x,
         sprite->GetSize().y
     );
     Vector2 pos = sprite->GetPosition(0.5f, 0.5f);
@@ -41,12 +44,14 @@ void Entity::SetHitbox()
 
 void Entity::TakeDamage(int damage)
 {
-    std::cout << "TakeDamage appele avec damage=" << damage << ", pv=" << pv << std::endl;  // DEBUG
     pv -= damage;
     if (pv <= 0)
     {
         pv = 0;
         is_alive = false;
     }
-    std::cout << "Apres damage: pv=" << pv << ", is_alive=" << is_alive << std::endl;  // DEBUG
+
+    // Active l'invulnérabilité pour 0.5 secondes
+
+
 }

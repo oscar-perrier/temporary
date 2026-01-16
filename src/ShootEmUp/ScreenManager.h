@@ -6,18 +6,22 @@
 
 #include "EntityManager.h"
 class EntityManager;
+enum Menu;
 
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <iostream>
 
 
-#define WIDTH 1000
-#define HEIGHT 600
+#define WIDTH 1300
+#define HEIGHT 800
 
 #define TARGET_FPS 60
 #define TARGET_DELTA_TIME 1.0f / TARGET_FPS
 
-
+#define PLAYER_SPEED 300.0f
+#define FIRE_RATE 5.0f
+#define ENEMY_FIRE_RATE 2.0f
 class ScreenManager
 {
 
@@ -31,7 +35,7 @@ public:
 
 
     bool Init();
-    // Permet de changer d’écran (menu, jeu, pause…)
+    // Permet de changer dï¿½ï¿½cran (menu, jeu, pauseï¿½)
     void Update(EntityManager& entities);
     SDL_Renderer* GetRenderer();
     SDL_Window* GetWindow();
