@@ -1,15 +1,10 @@
 #pragma once
+#include "Player.h"
 
-#include <vector>
-
-#include <SDL.h>
-
-#include "EntityManager.h"
-class EntityManager;
-
-#include <SDL_image.h>
 #include <iostream>
-
+#include <vector>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #define WIDTH 1000
 #define HEIGHT 600
@@ -17,20 +12,18 @@ class EntityManager;
 #define TARGET_FPS 60
 #define TARGET_DELTA_TIME 1.0f / TARGET_FPS
 
+class EntityManager;
 
 class ScreenManager
 {
+    SDL_Window* window;
+    SDL_Renderer* m_renderer;
 
 public:
-
-    void DrawHealthBar(Player* player);
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-
     ScreenManager();
 
-
     bool Init();
+    void DrawHealthBar(Player* player);
     // Permet de changer d’écran (menu, jeu, pause…)
     void Update(EntityManager& entities);
     SDL_Renderer* GetRenderer();

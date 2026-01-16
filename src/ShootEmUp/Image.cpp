@@ -1,9 +1,8 @@
 #include "Image.h"
+#include "AssetManager.h"
 
 #include <SDL.h>
-
 #include <iostream>
-#include "AssetManager.h"
 
 Image::Image(SDL_Renderer* renderer, const char* path, int rot, int spritePosX, int spritePosY, int spriteWidth, int spriteHeight) : Geometry(-1,-1)
 {

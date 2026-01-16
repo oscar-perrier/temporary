@@ -1,4 +1,5 @@
 #include "ScreenManager.h"
+#include "EntityManager.h"
 
 
 ScreenManager::ScreenManager()
