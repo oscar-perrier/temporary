@@ -1,0 +1,21 @@
+{
+    "projects": {
+        "ShootEmUp": {
+          "additionalDependencies": [ "SDL2.lib","SDL2main.lib","SDL2_image.lib" ],
+          "additionalIncludeDirectories": [ "..\\..\\SDL2\\include" ],
+          "additionalLibraryDirectories": [ "..\\..\\SDL2\\lib\\x64" ],
+            "dependencies": [],
+            "dependents": [],
+            "guid": "2E5003F5-4205-06CB-47C9-724E17F02E69",
+            "lib": false,
+            "pch": false,
+            "preprocessorDefinitions": [],
+            "vcpkg": false,
+            "window": false
+        }
+    },
+    "solution_guid": "2BBE1200-0E67-219D-4CED-61944F8872E5",
+    "solution_name": "ShootEmUp",
+    "startup_project": "ShootEmUp",
+    "version": "1.17.4"
+}
